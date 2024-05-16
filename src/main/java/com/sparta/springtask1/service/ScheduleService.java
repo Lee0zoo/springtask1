@@ -5,7 +5,6 @@ import com.sparta.springtask1.dto.ScheduleResponseDto;
 import com.sparta.springtask1.entity.Schedule;
 import com.sparta.springtask1.repository.ScheduleRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
