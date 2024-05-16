@@ -5,6 +5,7 @@ import com.sparta.springtask1.dto.ScheduleResponseDto;
 import com.sparta.springtask1.entity.Schedule;
 import com.sparta.springtask1.repository.ScheduleRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -36,26 +37,41 @@ public class ScheduleService {
         return scheduleRepository.findAllByOrderByModifiedAtDesc().stream().map(ScheduleResponseDto::new).toList();
     }
 
-    @Transactional
-    public Long updateSchedule(Long id, ScheduleRequestDto requestDto) {
-
-        // 해당 메모가 DB에 존재하는지 확인
+    public ScheduleResponseDto getSchedule(Long id) {
+        // 해당 스케줄이 DB에 존재하는지 확인
         Schedule schedule = findSchedule(id);
 
-        // memo 내용 수정
-        schedule.update(requestDto);
-        return id;
+        // Schedule 조회
+        return new ScheduleResponseDto(schedule);
     }
 
-    public Long deleteSchedule(Long id) {
-
-        // 해당 메모가 DB에 존재하는지 확인
+    @Transactional
+    public Long updateSchedule(Long id, ScheduleRequestDto requestDto) {
+        // 해당 스케줄이 DB에 존재하는지 확인
         Schedule schedule = findSchedule(id);
 
-        // memo 삭제
-        scheduleRepository.delete(schedule);
+        // 비밀번호 일치여부 확인
+        if(schedule.getPassword().equals(requestDto.getPassword())) {
+            // memo 내용 수정
+            schedule.update(requestDto);
+            return id;
+        } else {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
+    }
 
-        return id;
+    public Long deleteSchedule(Long id, ScheduleRequestDto requestDto) {
+        // 해당 스케줄이 DB에 존재하는지 확인
+        Schedule schedule = findSchedule(id);
+
+        // 비밀번호 일치여부 확인
+        if(schedule.getPassword().equals(requestDto.getPassword())) {
+            // memo 삭제
+            scheduleRepository.delete(schedule);
+            return id;
+        } else {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
     }
 
     private Schedule findSchedule(Long id) {

@@ -27,13 +27,18 @@ public class ScheduleController {
         return scheduleService.getAllSchedules();
     }
 
+    @GetMapping("/schedules")
+    public ScheduleResponseDto getSchedule(@PathVariable Long id) {
+        return scheduleService.getSchedule(id);
+    }
+
     @PutMapping("/schedules/{id}")
     public Long updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
         return scheduleService.updateSchedule(id, requestDto);
     }
 
     @DeleteMapping("/schedules/{id}")
-    public Long deleteSchedule(@PathVariable Long id) {
-        return scheduleService.deleteSchedule(id);
+    public Long deleteSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto requestDto) {
+        return scheduleService.deleteSchedule(id, requestDto);
     }
 }
