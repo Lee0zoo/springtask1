@@ -4,6 +4,7 @@ import com.sparta.springtask1.dto.ScheduleRequestDto;
 import com.sparta.springtask1.dto.ScheduleResponseDto;
 import com.sparta.springtask1.entity.Schedule;
 import com.sparta.springtask1.repository.ScheduleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -32,35 +33,33 @@ public class ScheduleService {
 
     public List<ScheduleResponseDto> getAllSchedules() {
         // DB 조회
-        return scheduleRepository.findAll();
+        return scheduleRepository.findAll().stream().map(ScheduleResponseDto::new).toList();
     }
 
+    @Transactional
     public Long updateSchedule(Long id, ScheduleRequestDto requestDto) {
 
         // 해당 메모가 DB에 존재하는지 확인
-        Schedule schedule = scheduleRepository.findById(id);
-        if(schedule != null) {
-            // memo 내용 수정
-            scheduleRepository.update(id, requestDto);
-            return id;
-        } else {
-            throw new IllegalArgumentException("선택한 일정은 존재하지 않습니다.");
-        }
+        Schedule schedule = findSchedule(id);
+
+        // memo 내용 수정
+        schedule.update(requestDto);
+        return id;
     }
 
     public Long deleteSchedule(Long id) {
 
         // 해당 메모가 DB에 존재하는지 확인
-        Schedule schedule = scheduleRepository.findById(id);
-        if(schedule != null) {
-            // memo 삭제
-            scheduleRepository.delete(id);
+        Schedule schedule = findSchedule(id);
 
-            return id;
-        } else {
-            throw new IllegalArgumentException("선택한 일정은 존재하지 않습니다.");
-        }
+        // memo 삭제
+        scheduleRepository.delete(schedule);
+
+        return id;
     }
 
-
+    private Schedule findSchedule(Long id) {
+        return scheduleRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Schedule not found"));
+    }
 }
