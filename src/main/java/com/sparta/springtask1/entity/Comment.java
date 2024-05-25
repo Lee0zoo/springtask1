@@ -1,5 +1,6 @@
 package com.sparta.springtask1.entity;
 
+import com.sparta.springtask1.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,4 +30,15 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "scheduleId")
     private Schedule schedule;
 
+    public Comment(CommentRequestDto requestDto) {
+        this.comment = requestDto.getComment();
+        this.userId = requestDto.getUserId();
+        this.ScheduleId = requestDto.getScheduleId();
+    }
+
+    public void update(CommentRequestDto requestDto) {
+        this.comment = requestDto.getComment();
+        this.userId = requestDto.getUserId();
+        this.ScheduleId = requestDto.getScheduleId();
+    }
 }
