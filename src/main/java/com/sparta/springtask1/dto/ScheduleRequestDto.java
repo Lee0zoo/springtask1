@@ -11,5 +11,4 @@ public class ScheduleRequestDto {
     private String title;
     private String password;
     private String contents;
-    private List<CommentResponseDto> commentList;
 }
