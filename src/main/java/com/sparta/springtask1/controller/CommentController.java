@@ -29,10 +29,4 @@ public class CommentController {
     public Long deleteComment(@PathVariable Long scheduleId, @PathVariable Long id, @RequestBody CommentRequestDto requestDto) {
         return commentService.deleteComment(scheduleId, id, requestDto);
     }
-
-
-
-
-
-
 }

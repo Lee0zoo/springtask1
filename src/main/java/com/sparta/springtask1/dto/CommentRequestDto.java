@@ -1,6 +1,7 @@
 package com.sparta.springtask1.dto;
 
 import lombok.Getter;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -8,5 +9,4 @@ import java.time.LocalDateTime;
 public class CommentRequestDto {
     private String detail;
     private String userId;
-    private Long scheduleId;
 }
