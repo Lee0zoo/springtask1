@@ -6,26 +6,28 @@ import com.sparta.springtask1.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/comments")
 public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/comments")
-    public CommentResponseDto createComment(@RequestBody CommentRequestDto requestDto) {
-        return commentService.createComment(requestDto);
+    @PostMapping("/{scheduleId}")
+    public List<CommentResponseDto> createComment(@PathVariable Long scheduleId, @RequestBody CommentRequestDto requestDto) {
+        return commentService.createComment(scheduleId, requestDto);
     }
 
-    @PutMapping("/comments/{id}")
-    public Long updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto) {
-        return commentService.updateComment(id, requestDto);
+    @PutMapping("/{scheduleId}/{id}")
+    public Long updateComment(@PathVariable Long scheduleId, @PathVariable Long id, @RequestBody CommentRequestDto requestDto) {
+        return commentService.updateComment(scheduleId, id, requestDto);
     }
 
-    @DeleteMapping("/comments/{id}")
-    public Long deleteComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto) {
-        return commentService.deleteComment(id, requestDto);
+    @DeleteMapping("/{scheduleId}/{id}")
+    public Long deleteComment(@PathVariable Long scheduleId, @PathVariable Long id, @RequestBody CommentRequestDto requestDto) {
+        return commentService.deleteComment(scheduleId, id, requestDto);
     }
 
 

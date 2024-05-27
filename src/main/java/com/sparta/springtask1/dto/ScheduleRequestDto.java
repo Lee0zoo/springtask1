@@ -1,6 +1,9 @@
 package com.sparta.springtask1.dto;
 
+import com.sparta.springtask1.entity.Comment;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 public class ScheduleRequestDto {
@@ -8,4 +11,5 @@ public class ScheduleRequestDto {
     private String title;
     private String password;
     private String contents;
+    private List<CommentResponseDto> commentList;
 }

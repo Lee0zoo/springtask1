@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Getter
 public class CommentRequestDto {
     private Long id;
-    private String comment;
+    private String detail;
     private String userId;
     private Long scheduleId;
     private LocalDateTime createAt;

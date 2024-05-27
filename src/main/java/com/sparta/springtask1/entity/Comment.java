@@ -17,28 +17,23 @@ public class Comment extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String comment;
+    @Column(name = "detail", nullable = false)
+    private String detail;
 
-    @Column(nullable = false)
+    @Column(name = "userId", nullable = false)
     private String userId;
-
-    @Column(nullable = false)
-    private Long ScheduleId;
 
     @ManyToOne
     @JoinColumn(name = "scheduleId")
     private Schedule schedule;
 
-    public Comment(CommentRequestDto requestDto) {
-        this.comment = requestDto.getComment();
+    public Comment(Schedule schedule, CommentRequestDto requestDto) {
+        this.detail = requestDto.getDetail();
         this.userId = requestDto.getUserId();
-        this.ScheduleId = requestDto.getScheduleId();
+        this.schedule = schedule;
     }
 
     public void update(CommentRequestDto requestDto) {
-        this.comment = requestDto.getComment();
-        this.userId = requestDto.getUserId();
-        this.ScheduleId = requestDto.getScheduleId();
+        this.detail = requestDto.getDetail();
     }
 }
