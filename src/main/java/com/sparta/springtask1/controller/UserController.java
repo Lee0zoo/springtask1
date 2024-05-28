@@ -1,10 +1,12 @@
 package com.sparta.springtask1.controller;
 
+import com.sparta.springtask1.dto.LoginRequestDto;
 import com.sparta.springtask1.dto.SignupRequestDto;
 import com.sparta.springtask1.dto.UserInfoDto;
 import com.sparta.springtask1.entity.UserRoleEnum;
 import com.sparta.springtask1.security.UserDetailsImpl;
 import com.sparta.springtask1.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +51,11 @@ public class UserController {
         userService.signup(requestDto);
 
         return "redirect:/api/user/login-page";
+    }
+
+    @PostMapping("/user/login")
+    public void login(@Valid LoginRequestDto requestDto, HttpServletResponse res) {
+        userService.login(requestDto, res);
     }
 
     // 회원 관련 정보 받기
