@@ -54,11 +54,6 @@ public class UserController {
         return "redirect:/api/user/login-page";
     }
 
-    @PostMapping("/user/login")
-    public void login(@Valid LoginRequestDto requestDto, HttpServletResponse res) {
-        userService.login(requestDto, res);
-    }
-
     // 회원 관련 정보 받기
     @GetMapping("/user-info")
     @ResponseBody
