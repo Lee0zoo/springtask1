@@ -30,16 +30,17 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/login-page")
-    public void loginPage() {
+    public String loginPage() {
+        return "login";
     }
 
     @GetMapping("/user/signup")
-    public void signupPage() {
+    public String signupPage() {
+        return "signup";
     }
 
     @PostMapping("/user/signup")
     public String signup(@Valid SignupRequestDto requestDto, BindingResult bindingResult) {
-        // Validation 예외처리
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         if(fieldErrors.size() > 0) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
