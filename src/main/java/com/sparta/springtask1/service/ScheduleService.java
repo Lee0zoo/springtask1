@@ -73,8 +73,9 @@ public class ScheduleService {
         }
     }
 
-    private Schedule findSchedule(Long id) {
+
+    public Schedule findSchedule(Long id) {
         return scheduleRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("Schedule not found"));
+                new IllegalArgumentException("해당 일정을 찾을 수 없습니다."));
     }
 }
