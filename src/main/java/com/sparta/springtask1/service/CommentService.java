@@ -26,11 +26,6 @@ public class CommentService {
         // 댓글을 담을 List 생성
         List<Comment> commentList = new ArrayList<>();
 
-        // 댓글에 아무 내용이 없으면 예외로 던짐
-        if(requestDto.getDetail().isBlank()) {
-            throw new IllegalArgumentException("내용을 입력해주세요");
-        }
-
         // 댓글 저장
         Comment comment = new Comment(schedule, requestDto);
 
@@ -56,9 +51,7 @@ public class CommentService {
         Comment comment = findComment(id);
 
         // 해당 댓글의 아이디가 수정자가 입력한 아이디와 같은지 확인
-        if(!requestDto.getUserId().equals(comment.getUserId())) {
-            throw new IllegalArgumentException("사용자의 아이디가 일치하지 않습니다.");
-        }
+        checkId(requestDto.getUserId(), comment.getUser_id());
 
         // 댓글 수정
         comment.update(requestDto);
@@ -72,9 +65,7 @@ public class CommentService {
         Comment comment = findComment(id);
 
         // 해당 댓글의 아이디가 삭제하려는 사람이 입력한 아이디와 같은지 확인
-        if(!requestDto.getUserId().equals(comment.getUserId())) {
-            throw new IllegalArgumentException("사용자의 아이디가 일치하지 않습니다.");
-        }
+        checkId(requestDto.getUserId(), comment.getUser_id());
 
         // 댓글 삭제
         commentRepository.delete(comment);
@@ -85,5 +76,11 @@ public class CommentService {
     private Comment findComment(Long id) {
         return commentRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 댓글을 찾을 수 없습니다."));
+    }
+
+    private void checkId(String id, String new_id) {
+        if(!id.equals(new_id)) {
+            throw new IllegalArgumentException("사용자의 아이디가 일치하지 않습니다.");
+        }
     }
 }
