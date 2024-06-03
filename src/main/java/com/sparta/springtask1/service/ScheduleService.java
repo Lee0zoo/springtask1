@@ -50,13 +50,10 @@ public class ScheduleService {
         Schedule schedule = findSchedule(id);
 
         // 비밀번호 일치여부 확인
-        if(schedule.getPassword().equals(requestDto.getPassword())) {
-            // memo 내용 수정
-            schedule.update(requestDto);
-            return id;
-        } else {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
-        }
+        checkPassword(schedule.getPassword(), requestDto.getPassword());
+        // memo 내용 수정
+        schedule.update(requestDto);
+        return id;
     }
 
     public Long deleteSchedule(Long id, ScheduleRequestDto requestDto) {
@@ -64,18 +61,21 @@ public class ScheduleService {
         Schedule schedule = findSchedule(id);
 
         // 비밀번호 일치여부 확인
-        if(schedule.getPassword().equals(requestDto.getPassword())) {
-            // memo 삭제
-            scheduleRepository.delete(schedule);
-            return id;
-        } else {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
-        }
+        checkPassword(schedule.getPassword(), requestDto.getPassword());
+        // memo 삭제
+        scheduleRepository.delete(schedule);
+        return id;
     }
 
 
     public Schedule findSchedule(Long id) {
         return scheduleRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 일정을 찾을 수 없습니다."));
+    }
+
+    private void checkPassword(String password, String new_password) {
+        if(!password.equals(new_password)) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+        }
     }
 }

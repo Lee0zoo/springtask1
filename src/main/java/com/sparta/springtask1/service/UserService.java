@@ -8,7 +8,9 @@ import com.sparta.springtask1.jwt.JwtUtil;
 import com.sparta.springtask1.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -20,7 +22,11 @@ public class UserService {
     private final JwtUtil jwtUtil;
 
     // ADMIN_TOKEN
-    private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
+//    private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
+
+    @Value("${custom.jwt.secretKey}")
+    private String ADMIN_TOKEN;
+
 
     public void signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();

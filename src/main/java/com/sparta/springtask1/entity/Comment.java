@@ -4,11 +4,9 @@ import com.sparta.springtask1.dto.CommentRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "comment")
 @NoArgsConstructor
 public class Comment extends Timestamped {
@@ -20,16 +18,16 @@ public class Comment extends Timestamped {
     @Column(name = "detail", nullable = false)
     private String detail;
 
-    @Column(name = "userId", nullable = false)
-    private String userId;
+    @Column(name = "user_id", nullable = false)
+    private String user_id;
 
     @ManyToOne
-    @JoinColumn(name = "scheduleId")
+    @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
     public Comment(Schedule schedule, CommentRequestDto requestDto) {
         this.detail = requestDto.getDetail();
-        this.userId = requestDto.getUserId();
+        this.user_id = requestDto.getUserId();
         this.schedule = schedule;
     }
 
